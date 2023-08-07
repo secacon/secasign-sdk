@@ -1,0 +1,13 @@
+# Build system
+/.gradle/
+/build/
+
+# IDE from JetBrains
+/.idea/
+/*.iml
+
+# Custom values for customers
+/src/test/java/com/secacon/secasignbox/sdk/ValuesCustomer*.java
+
+# Signed files
+/data/Signed_*.pdf

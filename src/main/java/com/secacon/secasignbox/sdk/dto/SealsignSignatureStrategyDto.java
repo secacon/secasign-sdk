@@ -38,11 +38,11 @@ public record SealsignSignatureStrategyDto(
 
     Integer signatureFontSize,
 
-    Integer signatureRgb1,
+    Integer signatureFontRgb1,
 
-    Integer signatureRgb2,
+    Integer signatureFontRgb2,
 
-    Integer signatureRgb3
+    Integer signatureFontRgb3
 ) implements SignatureStrategyDto {
 
     @Override

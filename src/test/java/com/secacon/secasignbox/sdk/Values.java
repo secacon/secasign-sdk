@@ -5,7 +5,7 @@ import java.util.UUID;
 // TODO: Change the values bellow and delete this TODO
 public class Values {
 
-    public static final String URL = "https://secasignbox-development.secacon.com";
+    public static final String URL = "https://secasignbox-development.secacon.com"; // No leading slash!
 
     public static final String USERNAME = "CHANGE_ME";
 

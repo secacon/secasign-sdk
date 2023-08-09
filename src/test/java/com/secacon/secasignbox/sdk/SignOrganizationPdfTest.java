@@ -52,7 +52,7 @@ public class SignOrganizationPdfTest {
             SignatureStrategyTypeDto.SEALSIGN, // Use the Sealsign signing strategy
             null, // Set visible signature graphic to null because we don't want a visible signature
             null, // Set visible signature description to null because we don't want a visible signature
-            null, // Set appearance to null. Internally NOT_CERTIFIED will be used which prevents any modification (even form filling/annotations)
+            null, // Set appearance to null. Internally NOT_CERTIFIED will be used and the document signature gets a green tick
             null, // Set rendering to null because we don't want a visible signature
             "Simon Wächter", // Person that signed the document. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Barack Obama)
             "Secasign-Box SDK Showcase", // Reason for the signature. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Aliens in Area 51)
@@ -127,7 +127,7 @@ public class SignOrganizationPdfTest {
             SignatureStrategyTypeDto.SEALSIGN, // Use the Sealsign signing strategy
             encodedPngSignature, // Set visible signature graphic to null because we don't want a visible signature
             "Digitally signed by\nSimon Wächter\nDate: " + date + "\n" + time + " CET", // Set visible signature description. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Barack Obama)
-            null, // Set appearance to null. Internally NOT_CERTIFIED will be used which prevents any modification (even form filling/annotations)
+            null, // Set appearance to null. Internally NOT_CERTIFIED will be used and the document signature gets a green tick
             SealsignSignatureRenderingDto.GRAPHIC_AND_DESCRIPTION, // Render the PNG signature and the signature description above. Several different renderings are possible. See the documentation
             "Simon Wächter", // Person that signed the document. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Barack Obama)
             "Secasign-Box SDK Showcase", // Reason for the signature. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Aliens in Area 51)

@@ -7,6 +7,6 @@ public record CreateOrganizationPdfSigningDto(
 
     UUID signingId,
 
-    List<CreateOrganizationPdfDocumentDto> items
+    List<CreateOrganizationPdfDocumentDto> documents
 ) {
 }

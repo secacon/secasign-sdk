@@ -1,4 +1,4 @@
-package com.secacon.secasignbox.sdk.dto;
+package com.secacon.secasignbox.sdk.dto.authentication;
 
 public record AuthenticationDto(
 

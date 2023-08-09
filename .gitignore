@@ -6,8 +6,8 @@
 /.idea/
 /*.iml
 
-# Custom values for customers
-/src/test/java/com/secacon/secasignbox/sdk/ValuesCustomer*.java
+# Ignore the values so they don't get added
+/src/test/java/com/secacon/secasignbox/sdk/Values*.java
 
 # Signed files
 /data/Signed_*.pdf

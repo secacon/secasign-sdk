@@ -1,9 +1,18 @@
-package com.secacon.secasignbox.sdk;
+package com.secacon.secasignbox.sdk.sign;
 
+import com.secacon.secasignbox.extension.SdkTest;
+import com.secacon.secasignbox.extension.SdkTestRequirements;
+import com.secacon.secasignbox.sdk.Values;
 import com.secacon.secasignbox.sdk.client.SecasignBoxHttpClient;
-import com.secacon.secasignbox.sdk.dto.*;
+import com.secacon.secasignbox.sdk.dto.authentication.AuthenticationDto;
+import com.secacon.secasignbox.sdk.dto.authentication.TokenDto;
+import com.secacon.secasignbox.sdk.dto.document.DocumentSigningStatusDto;
+import com.secacon.secasignbox.sdk.dto.sign.ReadOrganizationDocumentDto;
+import com.secacon.secasignbox.sdk.dto.sign.general.SignatureStrategyDto;
+import com.secacon.secasignbox.sdk.dto.sign.general.SignatureStrategyTypeDto;
+import com.secacon.secasignbox.sdk.dto.sign.sealsign.SealsignSignatureRenderingDto;
+import com.secacon.secasignbox.sdk.dto.sign.sealsign.SealsignSignatureStrategyDto;
 import com.secacon.secasignbox.sdk.utils.Base64Utils;
-import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -19,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @author Simon Wächter
  */
+@SdkTest
 public class SignOrganizationPdfTest {
 
     /**
@@ -26,7 +36,7 @@ public class SignOrganizationPdfTest {
      *
      * @throws Exception Exception
      */
-    @Test
+    @SdkTestRequirements(isLoginAvailable = true, isSigningAvailable = true)
     public void testSignOrganizationPdfDocumentViaInvisibleSealsignSignature() throws Exception {
         // Create HTTP client
         SecasignBoxHttpClient secasignBoxHttpClient = new SecasignBoxHttpClient(Values.URL);
@@ -90,7 +100,7 @@ public class SignOrganizationPdfTest {
      *
      * @throws Exception Exception
      */
-    @Test
+    @SdkTestRequirements(isLoginAvailable = true, isSigningAvailable = true)
     public void testSignOrganizationPdfDocumentViaVisibleSealsignSignature() throws Exception {
         // Create HTTP client
         SecasignBoxHttpClient secasignBoxHttpClient = new SecasignBoxHttpClient(Values.URL);

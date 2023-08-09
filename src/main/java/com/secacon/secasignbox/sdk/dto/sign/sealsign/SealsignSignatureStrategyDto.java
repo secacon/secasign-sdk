@@ -1,4 +1,7 @@
-package com.secacon.secasignbox.sdk.dto;
+package com.secacon.secasignbox.sdk.dto.sign.sealsign;
+
+import com.secacon.secasignbox.sdk.dto.sign.general.SignatureStrategyDto;
+import com.secacon.secasignbox.sdk.dto.sign.general.SignatureStrategyTypeDto;
 
 public record SealsignSignatureStrategyDto(
 
@@ -44,9 +47,4 @@ public record SealsignSignatureStrategyDto(
 
     Integer signatureFontRgb3
 ) implements SignatureStrategyDto {
-
-    @Override
-    public SignatureStrategyTypeDto getType() {
-        return type;
-    }
 }

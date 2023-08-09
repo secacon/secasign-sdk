@@ -1,9 +1,15 @@
 package com.secacon.secasignbox.sdk.client;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.secacon.secasignbox.sdk.dto.*;
+import com.secacon.secasignbox.sdk.dto.authentication.AuthenticationDto;
+import com.secacon.secasignbox.sdk.dto.authentication.TokenDto;
+import com.secacon.secasignbox.sdk.dto.sign.ReadOrganizationDocumentDto;
+import com.secacon.secasignbox.sdk.dto.sign.general.SignatureStrategyDto;
+import com.secacon.secasignbox.sdk.dto.sign.organization.pdf.CreateOrganizationPdfArchivingDto;
+import com.secacon.secasignbox.sdk.dto.sign.organization.pdf.CreateOrganizationPdfDocumentDto;
+import com.secacon.secasignbox.sdk.dto.sign.organization.pdf.CreateOrganizationPdfSigningDto;
 import com.secacon.secasignbox.sdk.utils.Base64Utils;
 
 import java.net.URI;
@@ -28,10 +34,17 @@ public class SecasignBoxHttpClient {
     private final String url;
 
     public SecasignBoxHttpClient(String url) {
-        // Create the object mapper
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new JavaTimeModule());
-        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        this(url, true);
+    }
+
+    public SecasignBoxHttpClient(String url, boolean prettyPrint) {
+        // Create the object mapper with the new Java time module
+        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+        // Enable pretty print if desired
+        if (prettyPrint) {
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        }
 
         // Create the HTTP client
         this.httpClient = HttpClient.newHttpClient();
@@ -47,6 +60,13 @@ public class SecasignBoxHttpClient {
         CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(Base64Utils.encodeBytes(documentData), documentName, protectedPdfSigning, signatureStrategyDto);
         CreateOrganizationPdfSigningDto createOrganizationPdfSigningDto = new CreateOrganizationPdfSigningDto(signingId, List.of(createOrganizationPdfDocumentDto));
         HttpResponse<String> httpResponse = executeRequest("POST", "/api/sign/organization/sign/pdf", tokenDto, createOrganizationPdfSigningDto);
+        return Arrays.asList(objectMapper.readValue(httpResponse.body(), ReadOrganizationDocumentDto[].class)).get(0);
+    }
+
+    public ReadOrganizationDocumentDto signAndArchiveOrganizationPdfDocuments(TokenDto tokenDto, UUID processingRuleId, byte[] documentData, String documentName, Boolean protectedPdfSigning, SignatureStrategyDto signatureStrategyDto) throws Exception {
+        CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(Base64Utils.encodeBytes(documentData), documentName, protectedPdfSigning, signatureStrategyDto);
+        CreateOrganizationPdfArchivingDto createOrganizationPdfArchivingDto = new CreateOrganizationPdfArchivingDto(processingRuleId, List.of(createOrganizationPdfDocumentDto));
+        HttpResponse<String> httpResponse = executeRequest("POST", "/api/sign/organization/archive/pdf", tokenDto, createOrganizationPdfArchivingDto);
         return Arrays.asList(objectMapper.readValue(httpResponse.body(), ReadOrganizationDocumentDto[].class)).get(0);
     }
 

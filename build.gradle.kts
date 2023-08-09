@@ -32,3 +32,10 @@ tasks.compileTestJava {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.register<Zip>("package") {
+    archiveFileName.set("secasign-box-sdk-${project.version}.zip")
+    exclude(".git", ".gradle/", "build/", ".idea/", "'*.iml", "src/test/java/com/secacon/secasignbox/sdk/Values*.java", "data/Signed_*.pdf", "secasign-box-sdk-*.zip")
+    destinationDirectory.set(project.buildDir)
+    from(project.rootDir)
+}

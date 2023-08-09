@@ -1,29 +1,55 @@
 # Secasign-Box SDK
 
-## Beschreibung
+## Description
 
-Dieses Projekt beinhaltet das Java SDK der Secasign-Box. Aufbau:
+This project provides the Java-SDK for the Secasign-Box. The layout is as following:
 
-* Im Verzeichnis `src/main/java` befindet sich die eigentliche Implementierung des SDKs.
-* Im Verzeichnis `src/test/java` sind diverse Unittests vorzufinden, wobei ein Unittest einen Use-Case darstellt (z.B. Anmeldung und grafische Signierung eines PDF-Dokumentes).
-* Im Verzeichnis `data` liegen Ressourcen (PDF-Dokumente, grafische Signaturen etc.) welche durch den Integrator ausgetauscht werden können. Dort werden auch die signierten Dokumente abgespeichert.
+* `src/main/java` contains the implementation of the Java-SDK HTTP-client.
+* `src/test/java` contains several unit tests. Each unit test represents a use-case, e.g. login and signing a PDF-document with a visual signature.
+* `data` contains the resources, e.g. PDF-documents and the graphical signature used for signing, which can be changed. This directory is also used to store signed documents.
 
-## Anleitung
+## Getting started
 
-Für die Inbetriebnahme des Java SDKs müssen folgende Schritte ausgeführt werden:
+Getting started requires the following steps:
 
-1.) Die Secacon stellt dem Kunden die PDF-Dokumentation samt diesem Java SDK.
+1.) Secacon provides a PDF-documentation together with this SDK.
 
-2.) In dieser PDF-Dokumentation sind die Zugangsdaten für die von der Secacon gestellte öffentlich erreichbare Testinstanz vorzufinden. Diese sind zu notieren und in die Datei `src/main/test/com/secacon/secasignbox/sdk/Values.java` einzutragen (Werte abändern). Wird dieser Schritt ausgelassen, so scheitern die Unittests mit einem Hinweis auf diese README.
+2.) This PDF-documentation contains all credentials and values used to execute these tests (They are customer specific). The developer has to create the template file `src/test/java/com/secacon/secasignbox/sdk/Values.java` (This file does not exist and not creating it will result in a compilation failure):
 
-3.) Nach dem Ändern der Werte können die einzelnen Unittests ausgeführt werden.
+```java
+package com.secacon.secasignbox.sdk;
 
-## Hinweise
+import java.util.UUID;
 
-* Das Java SDK wird als eigenständig lauffähiges Beispiel auf Basis von Java 17 und unter Verwendung von Jackson Object Mapper geliefert. Dem Kunden ist es überlassen, das Java SDK an seine eigenen Bedürfnisse anzupassen (z.B. Support für Java 8, anderer JSON Serializer etc.).
+public class Values {
 
-* In den Unittests wird immer auf die PDF-Dokumentation verwiesen (z.B. welche Werte sind setzbar/führen zu welchem Resultat). Es ist deshalb von zentraler Bedeutung, dass ein Integrator auch diese PDF-Dokumentation studiert (namentlich bei der Signierung von Dokumenten).
+    // Values used to log-in
+    public static final String URL = "https://secasignbox-development.secacon.com"; // No trailing slash!
+    public static final String USERNAME = null;
+    public static final String PASSWORD = null;
 
-## Kontakt
+    // Value used to sign documents
+    public static final UUID SIGNING_ID = null;
 
-Bei Fragen oder Unklarheiten kann Simon Wächter (simon.waechter@secacon.com) kontaktiert werden.
+    // Value used to sign and archive documents
+    public static final UUID PROCESSING_RULE_ID = null;
+}
+```
+
+
+Depending on the customer and his use case, not all values will be provided. Only change the values you were provided. The unit tests are modular and tests that require values that are not configured (null) will be skipped. Example: Setting the login-in and sign documents values will only execute the login test and the signing tests - but not other tests.
+
+3.) After creating and saving the file, execute the unit tests. 
+Please note that Java 17+ is required.
+
+## Notes
+
+* This Java-SDK requires Java 17 or higher.
+
+* The Java HTTP-client only depends on the Jackson object mapper and new Java HTTP-client introduced in Java 11. It is up to the customer to modify the client, e.g. port it back to an older Java version or replace the JSON library.
+
+* This SDK only provides an HTTP-client with several examples. Please study the PDF-documentation carefully because there all domain knowledge and possible settings are described (Especially for PDF signing and archiving).
+
+## Contact
+
+Feel free to contact Simon Wächter (simon.waechter@secacon.com) in case of problems or questions.

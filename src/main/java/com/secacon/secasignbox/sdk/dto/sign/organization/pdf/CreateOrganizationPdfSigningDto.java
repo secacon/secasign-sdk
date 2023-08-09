@@ -1,4 +1,4 @@
-package com.secacon.secasignbox.sdk.dto;
+package com.secacon.secasignbox.sdk.dto.sign.organization.pdf;
 
 import java.util.List;
 import java.util.UUID;

@@ -40,11 +40,11 @@ public class Values {
 Depending on the customer and his use case, not all values will be provided. Only change the values you were provided. The unit tests are modular and tests that require values that are not configured (null) will be skipped. Example: Setting the login-in and sign documents values will only execute the login test and the signing tests - but not other tests.
 
 3.) After creating and saving the file, execute the unit tests. 
-Please note that Java 17+ is required.
+Please note that Java 11+ is required.
 
 ## Notes
 
-* This Java-SDK requires Java 17 or higher.
+* This Java-SDK requires Java 11 or higher.
 
 * The Java HTTP-client only depends on the Jackson object mapper and new Java HTTP-client introduced in Java 11. It is up to the customer to modify the client, e.g. port it back to an older Java version or replace the JSON library.
 

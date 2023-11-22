@@ -12,32 +12,28 @@ import com.secacon.secasignbox.sdk.dto.sign.organization.pdf.CreateOrganizationP
 import com.secacon.secasignbox.sdk.dto.sign.organization.pdf.CreateOrganizationPdfSigningDto;
 import com.secacon.secasignbox.sdk.utils.Base64Utils;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 import java.util.UUID;
 
 public class SecasignBoxHttpClient {
 
-    static {
-        // See available output: https://stackoverflow.com/questions/53215038/how-to-log-request-response-using-java-net-http-httpclient
-        System.setProperty("jdk.httpclient.HttpClient.log", "requests,responses,headers,content,frames,all");
-    }
-
     private final ObjectMapper objectMapper;
 
-    private final HttpClient httpClient;
+    private final String baseUrl;
 
-    private final String url;
-
-    public SecasignBoxHttpClient(String url) {
-        this(url, true);
+    public SecasignBoxHttpClient(String baseUrl) {
+        this(baseUrl, true);
     }
 
-    public SecasignBoxHttpClient(String url, boolean prettyPrint) {
+    public SecasignBoxHttpClient(String baseUrl, boolean prettyPrint) {
         // Create the object mapper with the new Java time module
         this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
@@ -46,83 +42,82 @@ public class SecasignBoxHttpClient {
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         }
 
-        // Create the HTTP client
-        this.httpClient = HttpClient.newHttpClient();
-        this.url = url;
+        // Set the base URL
+        this.baseUrl = baseUrl;
     }
 
     public TokenDto login(AuthenticationDto authenticationDto) throws Exception {
-        HttpResponse<String> httpResponse = executeRequest("POST", "/api/login", null, authenticationDto);
-        return objectMapper.readValue(httpResponse.body(), TokenDto.class);
+        HttpURLConnection httpUrlConnection = executeRequest("POST", "/api/login", null, authenticationDto);
+        return objectMapper.readValue(readResponse(httpUrlConnection, false), TokenDto.class);
     }
 
     public ReadOrganizationDocumentDto signOrganizationPdfDocuments(TokenDto tokenDto, UUID signingId, byte[] documentData, String documentName, Boolean protectedPdfSigning, SignatureStrategyDto signatureStrategyDto) throws Exception {
         CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(Base64Utils.encodeBytes(documentData), documentName, protectedPdfSigning, signatureStrategyDto);
-        CreateOrganizationPdfSigningDto createOrganizationPdfSigningDto = new CreateOrganizationPdfSigningDto(signingId, List.of(createOrganizationPdfDocumentDto));
-        HttpResponse<String> httpResponse = executeRequest("POST", "/api/sign/organization/sign/pdf", tokenDto, createOrganizationPdfSigningDto);
-        return Arrays.asList(objectMapper.readValue(httpResponse.body(), ReadOrganizationDocumentDto[].class)).get(0);
+        CreateOrganizationPdfSigningDto createOrganizationPdfSigningDto = new CreateOrganizationPdfSigningDto(signingId, Collections.singletonList(createOrganizationPdfDocumentDto));
+        HttpURLConnection httpUrlConnection = executeRequest("POST", "/api/sign/organization/sign/pdf", tokenDto, createOrganizationPdfSigningDto);
+        return Arrays.asList(objectMapper.readValue(readResponse(httpUrlConnection, false), ReadOrganizationDocumentDto[].class)).get(0);
     }
 
     public ReadOrganizationDocumentDto signAndArchiveOrganizationPdfDocuments(TokenDto tokenDto, UUID processingRuleId, byte[] documentData, String documentName, Boolean protectedPdfSigning, SignatureStrategyDto signatureStrategyDto) throws Exception {
         CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(Base64Utils.encodeBytes(documentData), documentName, protectedPdfSigning, signatureStrategyDto);
-        CreateOrganizationPdfArchivingDto createOrganizationPdfArchivingDto = new CreateOrganizationPdfArchivingDto(processingRuleId, List.of(createOrganizationPdfDocumentDto));
-        HttpResponse<String> httpResponse = executeRequest("POST", "/api/sign/organization/archive/pdf", tokenDto, createOrganizationPdfArchivingDto);
-        return Arrays.asList(objectMapper.readValue(httpResponse.body(), ReadOrganizationDocumentDto[].class)).get(0);
+        CreateOrganizationPdfArchivingDto createOrganizationPdfArchivingDto = new CreateOrganizationPdfArchivingDto(processingRuleId, Collections.singletonList(createOrganizationPdfDocumentDto));
+        HttpURLConnection httpUrlConnection = executeRequest("POST", "/api/sign/organization/archive/pdf", tokenDto, createOrganizationPdfArchivingDto);
+        return Arrays.asList(objectMapper.readValue(readResponse(httpUrlConnection, false), ReadOrganizationDocumentDto[].class)).get(0);
     }
 
-    public HttpResponse<String> executeRequest(String method, String uri, TokenDto tokenDto, Object object) throws Exception {
-        // Create the HTTP request
-        URI fullUri = URI.create(url + uri);
-        HttpRequest.Builder httpRequestBuilder = handleHttpMethod(HttpRequest.newBuilder(fullUri), method, object);
-        httpRequestBuilder.setHeader("Content-Type", "application/json");
-        httpRequestBuilder.setHeader("Accept", "application/json");
+    public HttpURLConnection executeRequest(String method, String uri, TokenDto tokenDto, Object object) throws Exception {
+        // Create the connection
+        URL url = new URL(baseUrl + uri);
+        HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+        httpUrlConnection.setRequestMethod(method);
+        httpUrlConnection.setRequestProperty("User-Agent", "Secasign-Box SDK");
+        httpUrlConnection.setDoOutput(method.equals("POST") || method.equals("PUT"));
+        httpUrlConnection.setRequestProperty("Content-Type", "application/json");
+        httpUrlConnection.setRequestProperty("Accept", "application/json");
 
-        // Add an optional JWT token
+        // Add the authentication header
         if (tokenDto != null) {
-            httpRequestBuilder.header("Authorization", "Bearer " + tokenDto.getToken());
+            httpUrlConnection.setRequestProperty("Authorization", "Bearer " + tokenDto.getToken());
         }
 
-        // Execute request
-        HttpRequest httpRequest = httpRequestBuilder.build();
-        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-        // Check the result
-        if (httpResponse.statusCode() != 200) {
-            throw new RuntimeException("HTTP response status code is not 200 but " + httpResponse.statusCode() + ": " + httpResponse.body());
-        }
-
-        // Return the response
-        return httpResponse;
-    }
-
-    public HttpRequest.BodyPublisher getBodyPublisher(Object object) throws Exception {
-        // Check if body
+        // Write the request body if available
         if (object != null) {
-            String body = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-            System.out.println("Body: " + body);
-            return HttpRequest.BodyPublishers.ofString(body);
-        } else {
-            System.out.println("No body");
-            return HttpRequest.BodyPublishers.noBody();
+            String body = objectMapper.writeValueAsString(object);
+            System.out.println("Request body for " + uri + ":");
+            System.out.println(body);
+            try (OutputStream outputStream = httpUrlConnection.getOutputStream()) {
+                outputStream.write(body.getBytes(StandardCharsets.UTF_8));
+            }
         }
+
+        // Check the response status code
+        int statusCode = httpUrlConnection.getResponseCode();
+        if (statusCode != 200) {
+            throw new RuntimeException("Invalid HTTP status code " + statusCode + ": " + readResponse(httpUrlConnection, true));
+        }
+
+        // Return the URL connection
+        return httpUrlConnection;
     }
 
-    public HttpRequest.Builder handleHttpMethod(HttpRequest.Builder httpRequestBuilder, String method, Object object) throws Exception {
-        // Create the body
-        HttpRequest.BodyPublisher bodyPublisher = getBodyPublisher(object);
-
-        // Set the method and body
-        switch (method) {
-            case "GET":
-                return httpRequestBuilder.GET();
-            case "POST":
-                return httpRequestBuilder.POST(bodyPublisher);
-            case "PUT":
-                return httpRequestBuilder.PUT(bodyPublisher);
-            case "DELETE":
-                return httpRequestBuilder.DELETE();
-            default:
-                throw new RuntimeException("Unsupported method " + method);
+    protected String readResponse(HttpURLConnection connection, boolean useErrorStream) throws IOException {
+        // Read the response
+        String line;
+        StringBuilder builder = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader(useErrorStream ? new InputStreamReader(connection.getErrorStream()) : new InputStreamReader(connection.getInputStream()))) {
+            while ((line = bufferedReader.readLine()) != null) {
+                builder.append(line);
+            }
         }
+
+        // Get the response
+        String body = builder.toString();
+
+        // Log the response
+        System.out.println("Response:");
+        System.out.println(body);
+
+        // Return the body
+        return body;
     }
 }

@@ -79,7 +79,7 @@ public class SecasignBoxHttpClient {
 
         // Add an optional JWT token
         if (tokenDto != null) {
-            httpRequestBuilder.header("Authorization", "Bearer " + tokenDto.token());
+            httpRequestBuilder.header("Authorization", "Bearer " + tokenDto.getToken());
         }
 
         // Execute request
@@ -112,12 +112,17 @@ public class SecasignBoxHttpClient {
         HttpRequest.BodyPublisher bodyPublisher = getBodyPublisher(object);
 
         // Set the method and body
-        return switch (method) {
-            case "GET" -> httpRequestBuilder.GET();
-            case "POST" -> httpRequestBuilder.POST(bodyPublisher);
-            case "PUT" -> httpRequestBuilder.PUT(bodyPublisher);
-            case "DELETE" -> httpRequestBuilder.DELETE();
-            default -> throw new RuntimeException("Unsupported method " + method);
-        };
+        switch (method) {
+            case "GET":
+                return httpRequestBuilder.GET();
+            case "POST":
+                return httpRequestBuilder.POST(bodyPublisher);
+            case "PUT":
+                return httpRequestBuilder.PUT(bodyPublisher);
+            case "DELETE":
+                return httpRequestBuilder.DELETE();
+            default:
+                throw new RuntimeException("Unsupported method " + method);
+        }
     }
 }

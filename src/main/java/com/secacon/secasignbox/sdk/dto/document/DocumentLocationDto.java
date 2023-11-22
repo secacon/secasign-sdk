@@ -2,10 +2,33 @@ package com.secacon.secasignbox.sdk.dto.document;
 
 import java.util.UUID;
 
-public record DocumentLocationDto(
+public final class DocumentLocationDto {
 
-    UUID locationId,
+    private UUID locationId;
 
-    String errorMessage
-) {
+    private String errorMessage;
+
+    public DocumentLocationDto() {
+    }
+
+    public DocumentLocationDto(UUID locationId, String errorMessage) {
+        this.locationId = locationId;
+        this.errorMessage = errorMessage;
+    }
+
+    public UUID getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(UUID locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

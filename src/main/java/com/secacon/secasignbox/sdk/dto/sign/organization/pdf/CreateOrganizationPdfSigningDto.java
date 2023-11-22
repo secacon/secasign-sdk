@@ -3,10 +3,33 @@ package com.secacon.secasignbox.sdk.dto.sign.organization.pdf;
 import java.util.List;
 import java.util.UUID;
 
-public record CreateOrganizationPdfSigningDto(
+public final class CreateOrganizationPdfSigningDto {
 
-    UUID signingId,
+    private UUID signingId;
 
-    List<CreateOrganizationPdfDocumentDto> documents
-) {
+    private List<CreateOrganizationPdfDocumentDto> documents;
+
+    public CreateOrganizationPdfSigningDto() {
+    }
+
+    public CreateOrganizationPdfSigningDto(UUID signingId, List<CreateOrganizationPdfDocumentDto> documents) {
+        this.signingId = signingId;
+        this.documents = documents;
+    }
+
+    public UUID getSigningId() {
+        return signingId;
+    }
+
+    public void setSigningId(UUID signingId) {
+        this.signingId = signingId;
+    }
+
+    public List<CreateOrganizationPdfDocumentDto> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<CreateOrganizationPdfDocumentDto> documents) {
+        this.documents = documents;
+    }
 }

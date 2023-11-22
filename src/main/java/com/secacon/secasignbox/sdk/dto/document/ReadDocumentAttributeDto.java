@@ -2,10 +2,33 @@ package com.secacon.secasignbox.sdk.dto.document;
 
 import java.util.UUID;
 
-public record ReadDocumentAttributeDto(
+public final class ReadDocumentAttributeDto {
 
-    UUID archiveAttributeId,
+    private UUID archiveAttributeId;
 
-    String value
-) {
+    private String value;
+
+    public ReadDocumentAttributeDto() {
+    }
+
+    public ReadDocumentAttributeDto(UUID archiveAttributeId, String value) {
+        this.archiveAttributeId = archiveAttributeId;
+        this.value = value;
+    }
+
+    public UUID getArchiveAttributeId() {
+        return archiveAttributeId;
+    }
+
+    public void setArchiveAttributeId(UUID archiveAttributeId) {
+        this.archiveAttributeId = archiveAttributeId;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

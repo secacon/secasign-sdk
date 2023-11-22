@@ -4,18 +4,77 @@ import com.secacon.secasignbox.sdk.dto.document.DocumentSigningStatusDto;
 import com.secacon.secasignbox.sdk.dto.document.ReadDocumentDto;
 import com.secacon.secasignbox.sdk.dto.document.SignatureTypeDto;
 
-public record ReadOrganizationDocumentDto(
+public final class ReadOrganizationDocumentDto {
 
-    DocumentSigningStatusDto signingStatus,
+    private DocumentSigningStatusDto signingStatus;
 
-    String errorMessage,
+    private String errorMessage;
 
-    String documentName,
+    private String documentName;
 
-    String encodedSignedDocumentOrSignature,
+    private String encodedSignedDocumentOrSignature;
 
-    SignatureTypeDto signatureType,
+    private SignatureTypeDto signatureType;
 
-    ReadDocumentDto document
-) {
+    private ReadDocumentDto document;
+
+    public ReadOrganizationDocumentDto() {
+    }
+
+    public ReadOrganizationDocumentDto(DocumentSigningStatusDto signingStatus, String errorMessage, String documentName, String encodedSignedDocumentOrSignature, SignatureTypeDto signatureType, ReadDocumentDto document) {
+        this.signingStatus = signingStatus;
+        this.errorMessage = errorMessage;
+        this.documentName = documentName;
+        this.encodedSignedDocumentOrSignature = encodedSignedDocumentOrSignature;
+        this.signatureType = signatureType;
+        this.document = document;
+    }
+
+    public DocumentSigningStatusDto getSigningStatus() {
+        return signingStatus;
+    }
+
+    public void setSigningStatus(DocumentSigningStatusDto signingStatus) {
+        this.signingStatus = signingStatus;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getDocumentName() {
+        return documentName;
+    }
+
+    public void setDocumentName(String documentName) {
+        this.documentName = documentName;
+    }
+
+    public String getEncodedSignedDocumentOrSignature() {
+        return encodedSignedDocumentOrSignature;
+    }
+
+    public void setEncodedSignedDocumentOrSignature(String encodedSignedDocumentOrSignature) {
+        this.encodedSignedDocumentOrSignature = encodedSignedDocumentOrSignature;
+    }
+
+    public SignatureTypeDto getSignatureType() {
+        return signatureType;
+    }
+
+    public void setSignatureType(SignatureTypeDto signatureType) {
+        this.signatureType = signatureType;
+    }
+
+    public ReadDocumentDto getDocument() {
+        return document;
+    }
+
+    public void setDocument(ReadDocumentDto document) {
+        this.document = document;
+    }
 }

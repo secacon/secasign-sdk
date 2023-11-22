@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test to sign PDF documents via organization signing with an invisible and visible signature.
@@ -86,12 +87,12 @@ public class SignOrganizationPdfTest {
         ReadOrganizationDocumentDto readOrganizationDocumentDto = secasignBoxHttpClient.signOrganizationPdfDocuments(tokenDto, signingId, unsignedPdfDocumentData, unsignedPdfDocument.getName(), protectedPdfSigning, signatureStrategyDto);
 
         // Handle the result
-        if (readOrganizationDocumentDto.signingStatus() == DocumentSigningStatusDto.SIGNED) {
+        if (readOrganizationDocumentDto.getSigningStatus() == DocumentSigningStatusDto.SIGNED) {
             File signedPdfDocument = new File("data/Signed_" + System.currentTimeMillis() + ".pdf");
-            Files.write(signedPdfDocument.toPath(), Base64Utils.decodeString(readOrganizationDocumentDto.encodedSignedDocumentOrSignature()));
+            Files.write(signedPdfDocument.toPath(), Base64Utils.decodeString(readOrganizationDocumentDto.getEncodedSignedDocumentOrSignature()));
             System.out.println("The document was successfully signed. Storing it at " + signedPdfDocument.getAbsolutePath());
-        } else if (readOrganizationDocumentDto.signingStatus() == DocumentSigningStatusDto.FAILED) {
-            System.out.println("Unable to sign the document. Error: " + readOrganizationDocumentDto.errorMessage());
+        } else if (readOrganizationDocumentDto.getSigningStatus() == DocumentSigningStatusDto.FAILED) {
+            fail("Unable to sign the document. Error: " + readOrganizationDocumentDto.getErrorMessage());
         }
     }
 
@@ -161,12 +162,12 @@ public class SignOrganizationPdfTest {
         ReadOrganizationDocumentDto readOrganizationDocumentDto = secasignBoxHttpClient.signOrganizationPdfDocuments(tokenDto, signingId, unsignedPdfDocumentData, unsignedPdfDocument.getName(), protectedPdfSigning, signatureStrategyDto);
 
         // Handle the result
-        if (readOrganizationDocumentDto.signingStatus() == DocumentSigningStatusDto.SIGNED) {
+        if (readOrganizationDocumentDto.getSigningStatus() == DocumentSigningStatusDto.SIGNED) {
             File signedPdfDocument = new File("data/Signed_" + System.currentTimeMillis() + ".pdf");
-            Files.write(signedPdfDocument.toPath(), Base64Utils.decodeString(readOrganizationDocumentDto.encodedSignedDocumentOrSignature()));
+            Files.write(signedPdfDocument.toPath(), Base64Utils.decodeString(readOrganizationDocumentDto.getEncodedSignedDocumentOrSignature()));
             System.out.println("The document was successfully signed. Storing it at " + signedPdfDocument.getAbsolutePath());
-        } else if (readOrganizationDocumentDto.signingStatus() == DocumentSigningStatusDto.FAILED) {
-            System.out.println("Unable to sign the document. Error: " + readOrganizationDocumentDto.errorMessage());
+        } else if (readOrganizationDocumentDto.getSigningStatus() == DocumentSigningStatusDto.FAILED) {
+            fail("Unable to sign the document. Error: " + readOrganizationDocumentDto.getErrorMessage());
         }
     }
 }

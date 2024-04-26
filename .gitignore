@@ -7,7 +7,7 @@
 /*.iml
 
 # Ignore the values so they don't get added
-/src/test/java/com/secacon/secasignbox/sdk/Values*.java
+/src/test/java/com/secacon/secasign/sdk/Values.java
 
 # Signed files
 /data/Signed_*.pdf

@@ -1,1 +1,1 @@
-rootProject.name = "secasign-box-sdk"
+rootProject.name = "secasign-sdk"

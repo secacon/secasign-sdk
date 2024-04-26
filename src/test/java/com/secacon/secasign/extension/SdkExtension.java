@@ -19,8 +19,8 @@ public class SdkExtension implements ExecutionCondition {
             SdkTestRequirements testRequirements = optionalTestRequirements.get();
 
             // Check if login is required and available
-            if (testRequirements.isLoginAvailable() && (Values.USERNAME == null || Values.PASSWORD == null)) {
-                return ConditionEvaluationResult.disabled("Please set the username/password to a non-null value in the Value.java file!");
+            if (testRequirements.isLoginAvailable() && (Values.EMAIL_ADDRESS == null || Values.PASSWORD == null)) {
+                return ConditionEvaluationResult.disabled("Please set the email address/password to a non-null value in the Value.java file!");
             }
 
             // Check if archiving is required and available

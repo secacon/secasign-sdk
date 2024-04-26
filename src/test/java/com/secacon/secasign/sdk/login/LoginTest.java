@@ -28,7 +28,7 @@ public class LoginTest {
         SecasignHttpClient secasignHttpClient = new SecasignHttpClient(Values.URL);
 
         // Obtain the token
-        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.USERNAME, Values.PASSWORD));
+        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.EMAIL_ADDRESS, Values.PASSWORD));
         assertNotNull(tokenDto.getToken());
     }
 }

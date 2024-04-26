@@ -2,24 +2,24 @@ package com.secacon.secasign.sdk.dto.authentication;
 
 public class AuthenticationDto {
 
-    private String username;
+    private String emailAddress;
 
     private String password;
 
     public AuthenticationDto() {
     }
 
-    public AuthenticationDto(String username, String password) {
-        this.username = username;
+    public AuthenticationDto(String emailAddress, String password) {
+        this.emailAddress = emailAddress;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {

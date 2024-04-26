@@ -43,7 +43,7 @@ public class ArchiveOrganizationPdfTest {
         SecasignHttpClient secasignHttpClient = new SecasignHttpClient(Values.URL);
 
         // Obtain the token
-        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.USERNAME, Values.PASSWORD));
+        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.EMAIL_ADDRESS, Values.PASSWORD));
 
         // Define the processing rule ID that processes the documents for the archive
         UUID processingRuleId = Values.PROCESSING_RULE_ID;

@@ -6,7 +6,7 @@ public class ValuesExample {
 
     // Values used to log-in
     public static final String URL = "https://secasign.secacon.com"; // No trailing slash!
-    public static final String USERNAME = null;
+    public static final String EMAIL_ADDRESS = null;
     public static final String PASSWORD = null;
 
     // Value used to sign documents

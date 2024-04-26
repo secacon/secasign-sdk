@@ -43,7 +43,7 @@ public class SignOrganizationPdfTest {
         SecasignHttpClient secasignHttpClient = new SecasignHttpClient(Values.URL);
 
         // Obtain the token
-        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.USERNAME, Values.PASSWORD));
+        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.EMAIL_ADDRESS, Values.PASSWORD));
 
         // Define the signing it that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
         UUID signingId = Values.SIGNING_ID;
@@ -107,7 +107,7 @@ public class SignOrganizationPdfTest {
         SecasignHttpClient secasignHttpClient = new SecasignHttpClient(Values.URL);
 
         // Obtain the token
-        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.USERNAME, Values.PASSWORD));
+        TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(Values.EMAIL_ADDRESS, Values.PASSWORD));
 
         // Define the signing it that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
         UUID signingId = Values.SIGNING_ID;

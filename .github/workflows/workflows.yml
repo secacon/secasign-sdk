@@ -1,0 +1,24 @@
+name: Secasign SDK workflow
+on: [push]
+jobs:
+    Secasign-SDK-Workflow:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                java-version: [8, 11, 17, 21]
+        steps:
+            - name: Clone the repository
+              uses: actions/checkout@v4
+            - name: Setup Java
+              uses: actions/setup-java@v4
+              with:
+                  java-version: ${{ matrix.java-version }}
+                  distribution: 'temurin'
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v3
+            - name: Copy the values file
+              run: |
+                cp src/test/java/com/secacon/secasign/sdk/ValuesExample.java src/test/java/com/secacon/secasign/sdk/Values.java
+                sed -i 's/public\s*class\s*ValuesExample/public class Values/' src/test/java/com/secacon/secasign/sdk/Values.java
+            - name: Build the project
+              run: ./gradlew build testClasses -x test

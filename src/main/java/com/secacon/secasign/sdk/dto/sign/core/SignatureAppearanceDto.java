@@ -1,6 +1,6 @@
-package com.secacon.secasign.sdk.dto.sign.sealsign;
+package com.secacon.secasign.sdk.dto.sign.core;
 
-public enum SealsignSignatureAppearanceDto {
+public enum SignatureAppearanceDto {
     NOT_CERTIFIED,
     CERTIFIED_NO_CHANGES_ALLOWED,
     CERTIFIED_FORM_FILLING,

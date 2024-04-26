@@ -2,7 +2,7 @@ package com.secacon.secasign.sdk.dto.document;
 
 import java.util.UUID;
 
-public final class ReadDocumentAttributeDto {
+public class ReadDocumentAttributeDto {
 
     private UUID archiveAttributeId;
 

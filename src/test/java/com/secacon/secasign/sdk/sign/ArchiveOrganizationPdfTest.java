@@ -8,10 +8,10 @@ import com.secacon.secasign.sdk.dto.authentication.AuthenticationDto;
 import com.secacon.secasign.sdk.dto.authentication.TokenDto;
 import com.secacon.secasign.sdk.dto.document.DocumentSigningStatusDto;
 import com.secacon.secasign.sdk.dto.sign.ReadOrganizationDocumentDto;
-import com.secacon.secasign.sdk.dto.sign.general.SignatureStrategyDto;
-import com.secacon.secasign.sdk.dto.sign.general.SignatureStrategyTypeDto;
-import com.secacon.secasign.sdk.dto.sign.sealsign.SealsignSignatureRenderingDto;
-import com.secacon.secasign.sdk.dto.sign.sealsign.SealsignSignatureStrategyDto;
+import com.secacon.secasign.sdk.dto.sign.core.SignatureRenderingDto;
+import com.secacon.secasign.sdk.dto.sign.core.SignatureStrategyDto;
+import com.secacon.secasign.sdk.dto.sign.core.SignatureStrategyTypeDto;
+import com.secacon.secasign.sdk.dto.sign.core.VisualSignatureStrategyDto;
 import com.secacon.secasign.sdk.utils.Base64Utils;
 
 import java.io.File;
@@ -38,7 +38,7 @@ public class ArchiveOrganizationPdfTest {
      * @throws Exception Exception
      */
     @SdkTestRequirements(isLoginAvailable = true, isArchivingAvailable = true)
-    public void testArchiveOrganizationPdfDocumentViaVisibleSealsignSignature() throws Exception {
+    public void testArchiveOrganizationPdfDocumentWithVisualSignature() throws Exception {
         // Create HTTP client
         SecasignHttpClient secasignHttpClient = new SecasignHttpClient(Values.URL);
 
@@ -69,22 +69,24 @@ public class ArchiveOrganizationPdfTest {
         String date = DateTimeFormatter.ofPattern("yyyy.MM.dd").withZone(ZoneId.of("Europe/Zurich")).format(now);
         String time = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.of("Europe/Zurich")).format(now);
 
-        // Create the visible Sealsign signature
-        SignatureStrategyDto signatureStrategyDto = new SealsignSignatureStrategyDto(
-            SignatureStrategyTypeDto.SEALSIGN, // Use the Sealsign signing strategy
+        // Define the visual signature
+        SignatureStrategyDto signatureStrategyDto = new VisualSignatureStrategyDto(
+            SignatureStrategyTypeDto.VISUAL_SIGNATURE, // Use the visual signature strategy
             encodedPngSignature, // Set visible signature graphic to null because we don't want a visible signature
             "Digitally signed by\nSimon Wächter\nDate: " + date + "\n" + time + " CET", // Set visible signature description. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Barack Obama)
             null, // Set appearance to null. Internally NOT_CERTIFIED will be used and the document signature gets a green tick
-            SealsignSignatureRenderingDto.GRAPHIC_AND_DESCRIPTION, // Render the PNG signature and the signature description above. Several different renderings are possible. See the documentation
+            SignatureRenderingDto.GRAPHIC_AND_DESCRIPTION, // Render the PNG signature and the signature description above. Several different renderings are possible. See the documentation
             "Simon Wächter", // Person that signed the document. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Barack Obama)
+            "simon.waechter@secacon.com", // Contact for the signature. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. barack.obama@whitehouse.gov)
             "Secasign SDK Showcase", // Reason for the signature. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Aliens in Area 51)
             "Basel", // Location for the signature. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Moon)
-            "simon.waechter@secacon.com", // Contact for the signature. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. barack.obama@whitehouse.gov)
             null, // Preservation size of the signature. Null because we use the default value of 30720 bytes
             null, // Name of the signature field. Null because we choose it internally
             1, // Page number of the signature, here first/only page
-            50, // Left page distance in millimeters of the signature, here 50 mm
+            null, // Use mm instead of points
+            75, // Left page distance in millimeters of the signature, here 75 mm
             50, // Top page distance in millimeters of the signature, here 50 mm
+            null, // Bottom page distance in millimeters of the signature, here null because top page distance is set
             75, // With in millimeters of the signature, here 75 mm
             25, // Height in millimeters of the signature, here 25 mm
             "Helvetica", // Font type of the signature

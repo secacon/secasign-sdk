@@ -1,7 +1,7 @@
 package com.secacon.secasign.sdk.dto.sign;
 
-import com.secacon.secasign.sdk.dto.document.ReadDocumentDto;
 import com.secacon.secasign.sdk.dto.document.DocumentSigningStatusDto;
+import com.secacon.secasign.sdk.dto.document.ReadDocumentDto;
 import com.secacon.secasign.sdk.dto.document.SignatureTypeDto;
 
 public final class ReadOrganizationDocumentDto {

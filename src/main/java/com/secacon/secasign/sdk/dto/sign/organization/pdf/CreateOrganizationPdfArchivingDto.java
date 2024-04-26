@@ -3,7 +3,7 @@ package com.secacon.secasign.sdk.dto.sign.organization.pdf;
 import java.util.List;
 import java.util.UUID;
 
-public final class CreateOrganizationPdfArchivingDto {
+public class CreateOrganizationPdfArchivingDto {
 
     private UUID processingRuleId;
 

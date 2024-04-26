@@ -1,9 +1,6 @@
-package com.secacon.secasign.sdk.dto.sign.sealsign;
+package com.secacon.secasign.sdk.dto.sign.core;
 
-import com.secacon.secasign.sdk.dto.sign.general.SignatureStrategyDto;
-import com.secacon.secasign.sdk.dto.sign.general.SignatureStrategyTypeDto;
-
-public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
+public class VisualSignatureStrategyDto implements SignatureStrategyDto {
 
     private SignatureStrategyTypeDto type;
 
@@ -11,17 +8,17 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
 
     private String signatureDescription;
 
-    private SealsignSignatureAppearanceDto signatureAppearance;
+    private SignatureAppearanceDto signatureAppearance;
 
-    private SealsignSignatureRenderingDto signatureRendering;
+    private SignatureRenderingDto signatureRendering;
 
     private String signerName;
+
+    private String signatureContact;
 
     private String signatureReason;
 
     private String signatureLocation;
-
-    private String signatureContact;
 
     private Integer signaturePreservationSize;
 
@@ -29,9 +26,13 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
 
     private Integer signaturePage;
 
+    private Boolean signatureUsePoints;
+
     private Integer signatureLeft;
 
     private Integer signatureTop;
+
+    private Integer signatureBottom;
 
     private Integer signatureWidth;
 
@@ -47,24 +48,26 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
 
     private Integer signatureFontRgb3;
 
-    public SealsignSignatureStrategyDto() {
+    public VisualSignatureStrategyDto() {
     }
 
-    public SealsignSignatureStrategyDto(SignatureStrategyTypeDto type, String encodedGraphic, String signatureDescription, SealsignSignatureAppearanceDto signatureAppearance, SealsignSignatureRenderingDto signatureRendering, String signerName, String signatureReason, String signatureLocation, String signatureContact, Integer signaturePreservationSize, String signatureFieldName, Integer signaturePage, Integer signatureLeft, Integer signatureTop, Integer signatureWidth, Integer signatureHeight, String signatureFont, Integer signatureFontSize, Integer signatureFontRgb1, Integer signatureFontRgb2, Integer signatureFontRgb3) {
+    public VisualSignatureStrategyDto(SignatureStrategyTypeDto type, String encodedGraphic, String signatureDescription, SignatureAppearanceDto signatureAppearance, SignatureRenderingDto signatureRendering, String signerName, String signatureContact, String signatureReason, String signatureLocation, Integer signaturePreservationSize, String signatureFieldName, Integer signaturePage, Boolean signatureUsePoints, Integer signatureLeft, Integer signatureTop, Integer signatureBottom, Integer signatureWidth, Integer signatureHeight, String signatureFont, Integer signatureFontSize, Integer signatureFontRgb1, Integer signatureFontRgb2, Integer signatureFontRgb3) {
         this.type = type;
         this.encodedGraphic = encodedGraphic;
         this.signatureDescription = signatureDescription;
         this.signatureAppearance = signatureAppearance;
         this.signatureRendering = signatureRendering;
         this.signerName = signerName;
+        this.signatureContact = signatureContact;
         this.signatureReason = signatureReason;
         this.signatureLocation = signatureLocation;
-        this.signatureContact = signatureContact;
         this.signaturePreservationSize = signaturePreservationSize;
         this.signatureFieldName = signatureFieldName;
         this.signaturePage = signaturePage;
+        this.signatureUsePoints = signatureUsePoints;
         this.signatureLeft = signatureLeft;
         this.signatureTop = signatureTop;
+        this.signatureBottom = signatureBottom;
         this.signatureWidth = signatureWidth;
         this.signatureHeight = signatureHeight;
         this.signatureFont = signatureFont;
@@ -72,11 +75,6 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
         this.signatureFontRgb1 = signatureFontRgb1;
         this.signatureFontRgb2 = signatureFontRgb2;
         this.signatureFontRgb3 = signatureFontRgb3;
-    }
-
-    @Override
-    public SignatureStrategyTypeDto type() {
-        return type;
     }
 
     public SignatureStrategyTypeDto getType() {
@@ -103,19 +101,19 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
         this.signatureDescription = signatureDescription;
     }
 
-    public SealsignSignatureAppearanceDto getSignatureAppearance() {
+    public SignatureAppearanceDto getSignatureAppearance() {
         return signatureAppearance;
     }
 
-    public void setSignatureAppearance(SealsignSignatureAppearanceDto signatureAppearance) {
+    public void setSignatureAppearance(SignatureAppearanceDto signatureAppearance) {
         this.signatureAppearance = signatureAppearance;
     }
 
-    public SealsignSignatureRenderingDto getSignatureRendering() {
+    public SignatureRenderingDto getSignatureRendering() {
         return signatureRendering;
     }
 
-    public void setSignatureRendering(SealsignSignatureRenderingDto signatureRendering) {
+    public void setSignatureRendering(SignatureRenderingDto signatureRendering) {
         this.signatureRendering = signatureRendering;
     }
 
@@ -125,6 +123,14 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
 
     public void setSignerName(String signerName) {
         this.signerName = signerName;
+    }
+
+    public String getSignatureContact() {
+        return signatureContact;
+    }
+
+    public void setSignatureContact(String signatureContact) {
+        this.signatureContact = signatureContact;
     }
 
     public String getSignatureReason() {
@@ -141,14 +147,6 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
 
     public void setSignatureLocation(String signatureLocation) {
         this.signatureLocation = signatureLocation;
-    }
-
-    public String getSignatureContact() {
-        return signatureContact;
-    }
-
-    public void setSignatureContact(String signatureContact) {
-        this.signatureContact = signatureContact;
     }
 
     public Integer getSignaturePreservationSize() {
@@ -175,6 +173,14 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
         this.signaturePage = signaturePage;
     }
 
+    public Boolean getSignatureUsePoints() {
+        return signatureUsePoints;
+    }
+
+    public void setSignatureUsePoints(Boolean signatureUsePoints) {
+        this.signatureUsePoints = signatureUsePoints;
+    }
+
     public Integer getSignatureLeft() {
         return signatureLeft;
     }
@@ -189,6 +195,14 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
 
     public void setSignatureTop(Integer signatureTop) {
         this.signatureTop = signatureTop;
+    }
+
+    public Integer getSignatureBottom() {
+        return signatureBottom;
+    }
+
+    public void setSignatureBottom(Integer signatureBottom) {
+        this.signatureBottom = signatureBottom;
     }
 
     public Integer getSignatureWidth() {
@@ -245,5 +259,10 @@ public class SealsignSignatureStrategyDto implements SignatureStrategyDto {
 
     public void setSignatureFontRgb3(Integer signatureFontRgb3) {
         this.signatureFontRgb3 = signatureFontRgb3;
+    }
+
+    @Override
+    public SignatureStrategyTypeDto type() {
+        return type;
     }
 }

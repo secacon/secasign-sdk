@@ -2,7 +2,7 @@ package com.secacon.secasign.sdk.dto.document;
 
 import java.util.UUID;
 
-public final class DocumentLocationDto {
+public class DocumentLocationDto {
 
     private UUID locationId;
 

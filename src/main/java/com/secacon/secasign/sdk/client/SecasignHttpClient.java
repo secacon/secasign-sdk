@@ -6,7 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.secacon.secasign.sdk.dto.authentication.AuthenticationDto;
 import com.secacon.secasign.sdk.dto.authentication.TokenDto;
 import com.secacon.secasign.sdk.dto.sign.ReadOrganizationDocumentDto;
-import com.secacon.secasign.sdk.dto.sign.general.SignatureStrategyDto;
+import com.secacon.secasign.sdk.dto.sign.core.SignatureStrategyDto;
 import com.secacon.secasign.sdk.dto.sign.organization.pdf.CreateOrganizationPdfArchivingDto;
 import com.secacon.secasign.sdk.dto.sign.organization.pdf.CreateOrganizationPdfDocumentDto;
 import com.secacon.secasign.sdk.dto.sign.organization.pdf.CreateOrganizationPdfSigningDto;

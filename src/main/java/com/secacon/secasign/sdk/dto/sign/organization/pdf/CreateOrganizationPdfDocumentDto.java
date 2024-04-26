@@ -1,8 +1,8 @@
 package com.secacon.secasign.sdk.dto.sign.organization.pdf;
 
-import com.secacon.secasign.sdk.dto.sign.general.SignatureStrategyDto;
+import com.secacon.secasign.sdk.dto.sign.core.SignatureStrategyDto;
 
-public final class CreateOrganizationPdfDocumentDto {
+public class CreateOrganizationPdfDocumentDto {
 
     private String encodedDocument;
 

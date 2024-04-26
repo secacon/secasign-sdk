@@ -4,31 +4,44 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-public final class ReadDocumentDto {
+public class ReadDocumentDto {
+
+    private UUID id;
 
     private UUID archiveId;
-    private UUID documentId;
+
     private String documentName;
+
     private Long documentSize;
+
     private String originalDocumentHash;
+
     private String signedDocumentHash;
+
     private String textHash;
+
     private Instant archivingDate;
+
     private Instant retentionEndDate;
+
     private SignatureTypeDto signatureType;
-    private DocumentSigningStatusDto signingStatus;
+
     private DocumentProcessingStatusDto processingStatus;
+
     private DocumentExtractionStatusDto extractionStatus;
+
     private String errorMessage;
+
     private List<ReadDocumentAttributeDto> documentAttributes;
+
     private DocumentProcessingDto processing;
 
     public ReadDocumentDto() {
     }
 
-    public ReadDocumentDto(UUID archiveId, UUID documentId, String documentName, Long documentSize, String originalDocumentHash, String signedDocumentHash, String textHash, Instant archivingDate, Instant retentionEndDate, SignatureTypeDto signatureType, DocumentSigningStatusDto signingStatus, DocumentProcessingStatusDto processingStatus, DocumentExtractionStatusDto extractionStatus, String errorMessage, List<ReadDocumentAttributeDto> documentAttributes, DocumentProcessingDto processing) {
+    public ReadDocumentDto(UUID id, UUID archiveId, String documentName, Long documentSize, String originalDocumentHash, String signedDocumentHash, String textHash, Instant archivingDate, Instant retentionEndDate, SignatureTypeDto signatureType, DocumentProcessingStatusDto processingStatus, DocumentExtractionStatusDto extractionStatus, String errorMessage, List<ReadDocumentAttributeDto> documentAttributes, DocumentProcessingDto processing) {
+        this.id = id;
         this.archiveId = archiveId;
-        this.documentId = documentId;
         this.documentName = documentName;
         this.documentSize = documentSize;
         this.originalDocumentHash = originalDocumentHash;
@@ -37,12 +50,19 @@ public final class ReadDocumentDto {
         this.archivingDate = archivingDate;
         this.retentionEndDate = retentionEndDate;
         this.signatureType = signatureType;
-        this.signingStatus = signingStatus;
         this.processingStatus = processingStatus;
         this.extractionStatus = extractionStatus;
         this.errorMessage = errorMessage;
         this.documentAttributes = documentAttributes;
         this.processing = processing;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UUID getArchiveId() {
@@ -51,14 +71,6 @@ public final class ReadDocumentDto {
 
     public void setArchiveId(UUID archiveId) {
         this.archiveId = archiveId;
-    }
-
-    public UUID getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(UUID documentId) {
-        this.documentId = documentId;
     }
 
     public String getDocumentName() {
@@ -123,14 +135,6 @@ public final class ReadDocumentDto {
 
     public void setSignatureType(SignatureTypeDto signatureType) {
         this.signatureType = signatureType;
-    }
-
-    public DocumentSigningStatusDto getSigningStatus() {
-        return signingStatus;
-    }
-
-    public void setSigningStatus(DocumentSigningStatusDto signingStatus) {
-        this.signingStatus = signingStatus;
     }
 
     public DocumentProcessingStatusDto getProcessingStatus() {

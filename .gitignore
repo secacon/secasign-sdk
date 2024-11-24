@@ -1,13 +1,22 @@
-# Build system
-/.gradle/
-/build/
+# Java
+/java/.gradle/
+/java/build/
+/java/.idea/
+/java/*.iml
 
-# IDE from JetBrains
-/.idea/
-/*.iml
+# C#
+/csharp/.vs/
+/csharp/Secasign.sln.DotSettings.user
+/csharp/Secasign/obj/
+/csharp/Secasign/bin/
+/csharp/SecasignTest/obj/
+/csharp/SecasignTest/bin/
+/csharp/.idea/
 
-# Ignore the values so they don't get added
-/src/test/java/com/secacon/secasign/sdk/Values.java
+# File configuration.properties, so no sensitive information are added
+/configuration.properties
+/configuration_*.properties
 
 # Signed files
+/data/Downloaded_*.pdf
 /data/Signed_*.pdf

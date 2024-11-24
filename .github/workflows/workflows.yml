@@ -9,6 +9,8 @@ jobs:
         steps:
             - name: Clone the repository
               uses: actions/checkout@v4
+            - name: Encode and write the configuration properties
+              run: echo "${{ secrets.ENCODED_CONFIGURATION_PROPERTIES }}" | base64 -d > configuration.properties
             - name: Setup Java
               uses: actions/setup-java@v4
               with:
@@ -16,9 +18,19 @@ jobs:
                   distribution: 'temurin'
             - name: Setup Gradle
               uses: gradle/actions/setup-gradle@v3
-            - name: Copy the values file
-              run: |
-                cp src/test/java/com/secacon/secasign/sdk/ValuesExample.java src/test/java/com/secacon/secasign/sdk/Values.java
-                sed -i 's/public\s*class\s*ValuesExample/public class Values/' src/test/java/com/secacon/secasign/sdk/Values.java
-            - name: Build the project
-              run: ./gradlew build testClasses -x test
+            - name: Setup C#
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: '8.x'
+            - name: Build and test the Java project
+              run: ./gradlew build
+              working-directory: java
+            - name: Install the C# dependencies
+              run: dotnet restore
+              working-directory: csharp
+            - name: Build the C# solution
+              run: dotnet build
+              working-directory: csharp
+            - name: Test the C# solution
+              run: dotnet test
+              working-directory: csharp

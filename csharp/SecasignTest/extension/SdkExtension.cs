@@ -116,6 +116,6 @@ public class SdkExtension(params string[] conditions) : FactAttribute, IClassFix
 
     private static bool IsValueNotBlank(string? value)
     {
-        return !string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value);
+        return !string.IsNullOrEmpty(value) && !string.IsNullOrWhiteSpace(value);
     }
 }

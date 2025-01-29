@@ -47,7 +47,7 @@ public class SignOrganizationPdfTest {
         // Obtain the token
         TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(sdkConfiguration.getEmailAddress(), sdkConfiguration.getPassword()));
 
-        // Define the signing it that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
+        // Define the signing ID that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
         UUID signingId = sdkConfiguration.getSigningId();
 
         // Read the unsigned PDF document and Base64 encode it
@@ -130,7 +130,7 @@ public class SignOrganizationPdfTest {
         // Obtain the token
         TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(sdkConfiguration.getEmailAddress(), sdkConfiguration.getPassword()));
 
-        // Define the signing it that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
+        // Define the signing ID that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
         UUID signingId = sdkConfiguration.getSigningId();
 
         // Read the unsigned PDF document and Base64 encode it

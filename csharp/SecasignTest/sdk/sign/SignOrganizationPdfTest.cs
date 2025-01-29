@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Secasign;
 using Secasign.dto.authentication;
 using Secasign.dto.document;
@@ -23,7 +23,7 @@ public class SignOrganizationPdfTest
         var tokenDto = await secasignHttpClient.Login(authenticationDto);
         Assert.NotNull(tokenDto.token);
 
-        // Define the signing it that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
+        // Define the signing ID that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
         var signingId = (Guid)SdkConfiguration.SigningId!;
 
         // Read the unsigned PDF document and Base64 encode it
@@ -105,7 +105,7 @@ public class SignOrganizationPdfTest
         var tokenDto = await secasignHttpClient.Login(authenticationDto);
         Assert.NotNull(tokenDto.token);
 
-        // Define the signing it that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
+        // Define the signing ID that represents the organization certificate in Secasign (The link to the real certificate in the Swisscom-AIS HSM)
         var signingId = (Guid)SdkConfiguration.SigningId!;
 
         // Read the unsigned PDF document and Base64 encode it

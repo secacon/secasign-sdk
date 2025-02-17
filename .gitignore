@@ -15,7 +15,7 @@
 
 # File configuration.properties, so no sensitive information are added
 /configuration.properties
-/configuration_*.properties
+/configuration-*.properties
 
 # Signed files
 /data/Downloaded_*.pdf

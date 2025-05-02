@@ -1,4 +1,5 @@
 # Java
+/.idea/
 /java/.gradle/
 /java/build/
 /java/.idea/

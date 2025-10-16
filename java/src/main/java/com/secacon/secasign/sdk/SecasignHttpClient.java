@@ -1,8 +1,5 @@
 package com.secacon.secasign.sdk;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.secacon.secasign.sdk.dto.authentication.AuthenticationDto;
 import com.secacon.secasign.sdk.dto.authentication.TokenDto;
 import com.secacon.secasign.sdk.dto.document.DocumentSearchCriteriaDto;
@@ -11,6 +8,7 @@ import com.secacon.secasign.sdk.dto.document.ReadDocumentDto;
 import com.secacon.secasign.sdk.dto.sign.ReadOrganizationDocumentDto;
 import com.secacon.secasign.sdk.dto.sign.organization.pdf.CreateOrganizationPdfArchivingDto;
 import com.secacon.secasign.sdk.dto.sign.organization.pdf.CreateOrganizationPdfSigningDto;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -23,7 +21,7 @@ import java.util.UUID;
 
 public class SecasignHttpClient {
 
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
     private final String baseUrl;
 
@@ -32,26 +30,27 @@ public class SecasignHttpClient {
     }
 
     public SecasignHttpClient(String baseUrl, boolean prettyPrint) {
-        // Create the object mapper with the new Java time module
-        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        // Create the JSON builder
+        JsonMapper.Builder builder = JsonMapper.builder();
 
         // Enable pretty print if desired
         if (prettyPrint) {
-            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            builder.enable(tools.jackson.databind.SerializationFeature.INDENT_OUTPUT);
         }
 
-        // Set the base URL
+        // Build the JSON mapper and set the base URL
+        this.jsonMapper = builder.build();
         this.baseUrl = baseUrl;
     }
 
     public TokenDto login(AuthenticationDto authenticationDto) throws Exception {
         HttpURLConnection httpUrlConnection = executeRequest("POST", "/api/login", null, authenticationDto);
-        return objectMapper.readValue(readStringResponse(httpUrlConnection, false), TokenDto.class);
+        return jsonMapper.readValue(readStringResponse(httpUrlConnection, false), TokenDto.class);
     }
 
     public ReadDocumentDto getDocumentById(TokenDto tokenDto, UUID documentId) throws Exception {
         HttpURLConnection httpUrlConnection = executeRequest("GET", "/api/documents/" + documentId, tokenDto, null);
-        return objectMapper.readValue(readStringResponse(httpUrlConnection, false), ReadDocumentDto.class);
+        return jsonMapper.readValue(readStringResponse(httpUrlConnection, false), ReadDocumentDto.class);
     }
 
     public byte[] downloadOriginalDocument(TokenDto tokenDto, UUID documentId) throws Exception {
@@ -66,17 +65,17 @@ public class SecasignHttpClient {
 
     public DocumentSearchResultDto searchDocuments(TokenDto tokenDto, DocumentSearchCriteriaDto documentSearchCriteriaDto) throws Exception {
         HttpURLConnection httpUrlConnection = executeRequest("POST", "/api/documents/search", tokenDto, documentSearchCriteriaDto);
-        return objectMapper.readValue(readStringResponse(httpUrlConnection, false), DocumentSearchResultDto.class);
+        return jsonMapper.readValue(readStringResponse(httpUrlConnection, false), DocumentSearchResultDto.class);
     }
 
     public List<ReadOrganizationDocumentDto> signOrganizationPdfDocuments(TokenDto tokenDto, CreateOrganizationPdfSigningDto createOrganizationPdfSigningDto) throws Exception {
         HttpURLConnection httpUrlConnection = executeRequest("POST", "/api/sign/organization/sign/pdf", tokenDto, createOrganizationPdfSigningDto);
-        return Arrays.asList(objectMapper.readValue(readStringResponse(httpUrlConnection, false), ReadOrganizationDocumentDto[].class));
+        return Arrays.asList(jsonMapper.readValue(readStringResponse(httpUrlConnection, false), ReadOrganizationDocumentDto[].class));
     }
 
     public List<ReadOrganizationDocumentDto> signAndArchiveOrganizationPdfDocuments(TokenDto tokenDto, CreateOrganizationPdfArchivingDto createOrganizationPdfArchivingDto) throws Exception {
         HttpURLConnection httpUrlConnection = executeRequest("POST", "/api/sign/organization/archive/pdf", tokenDto, createOrganizationPdfArchivingDto);
-        return Arrays.asList(objectMapper.readValue(readStringResponse(httpUrlConnection, false), ReadOrganizationDocumentDto[].class));
+        return Arrays.asList(jsonMapper.readValue(readStringResponse(httpUrlConnection, false), ReadOrganizationDocumentDto[].class));
     }
 
     private HttpURLConnection executeRequest(String method, String uri, TokenDto tokenDto, Object payload) throws Exception {
@@ -100,7 +99,7 @@ public class SecasignHttpClient {
 
         // Write the request body if available
         if (payload != null) {
-            String body = objectMapper.writeValueAsString(payload);
+            String body = jsonMapper.writeValueAsString(payload);
             System.out.println("Request body for " + uri + ":");
             System.out.println(body);
             try (OutputStream outputStream = httpUrlConnection.getOutputStream()) {

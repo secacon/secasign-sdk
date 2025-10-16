@@ -4,10 +4,13 @@
 
 This project provides the SDK for Secasign with two available implementations:
 
-* A Java 8 implementation with Jackson in the `java` directory
+* A Java 17+ implementation with Jackson in the `java` directory
 * A pure C#/.NET 8 implementation in the `csharp` directory
 
-Both implementations provide a.) an HTTP client and b.) several test cases to cover all important uses cases. For configuration, the file `configuration.properties` in the project directory is used. By default, all test cases will be skipped and it is up to the developer to configure the values in this properties file (Secacon will provide these required values for the developer).
+Notes:
+
+* Both implementations provide a.) an HTTP client and b.) several test cases to cover all important uses cases. For configuration, the file `configuration.properties` in the project directory is used. By default, all test cases will be skipped and it is up to the developer to configure the values in this properties file (Secacon will provide these required values for the developer).
+* The Java client is tested with Java 17+, but it can be backported to Java 8 (Switch back to an older Gradle and Jackson version).
 
 ## Getting started
 

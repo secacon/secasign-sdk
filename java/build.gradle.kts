@@ -11,8 +11,7 @@ repositories {
 
 dependencies {
     // Serialization
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.20.0")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0")
+    implementation("tools.jackson.core:jackson-databind:3.0.0")
 
     // Testing
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
@@ -21,8 +20,8 @@ dependencies {
 }
 
 tasks.compileJava {
-    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-    targetCompatibility = JavaVersion.VERSION_1_8.toString()
+    sourceCompatibility = JavaVersion.VERSION_17.toString()
+    targetCompatibility = JavaVersion.VERSION_17.toString()
     options.compilerArgs.addAll(arrayOf("-Xlint:deprecation", "-Xlint:-options"))
     options.encoding = "UTF-8"
 }

@@ -11,10 +11,10 @@ repositories {
 
 dependencies {
     // Serialization
-    implementation("tools.jackson.core:jackson-databind:3.0.0")
+    implementation("tools.jackson.core:jackson-databind:3.0.2")
 
     // Testing
-    testImplementation(platform("org.junit:junit-bom:6.0.0"))
+    testImplementation(platform("org.junit:junit-bom:6.0.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.platform:junit-platform-launcher")
 }

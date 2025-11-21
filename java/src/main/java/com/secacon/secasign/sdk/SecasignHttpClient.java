@@ -8,6 +8,8 @@ import com.secacon.secasign.sdk.dto.document.ReadDocumentDto;
 import com.secacon.secasign.sdk.dto.sign.ReadOrganizationDocumentDto;
 import com.secacon.secasign.sdk.dto.sign.organization.pdf.CreateOrganizationPdfArchivingDto;
 import com.secacon.secasign.sdk.dto.sign.organization.pdf.CreateOrganizationPdfSigningDto;
+import tools.jackson.core.StreamReadConstraints;
+import tools.jackson.core.json.JsonFactory;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.*;
@@ -31,7 +33,9 @@ public class SecasignHttpClient {
 
     public SecasignHttpClient(String baseUrl, boolean prettyPrint) {
         // Create the JSON builder
-        JsonMapper.Builder builder = JsonMapper.builder();
+        StreamReadConstraints constraints = StreamReadConstraints.builder().maxStringLength(Integer.MAX_VALUE).build();
+        JsonFactory jsonFactory = JsonFactory.builder().streamReadConstraints(constraints).build();
+        JsonMapper.Builder builder = JsonMapper.builder(jsonFactory);
 
         // Enable pretty print if desired
         if (prettyPrint) {

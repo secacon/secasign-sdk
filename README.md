@@ -5,7 +5,7 @@
 This project provides the SDK for Secasign with two available implementations:
 
 * A Java 17+ implementation with Jackson in the `java` directory
-* A pure C#/.NET 8 implementation in the `csharp` directory
+* A pure C#/.NET 10 implementation in the `csharp` directory
 
 Notes:
 

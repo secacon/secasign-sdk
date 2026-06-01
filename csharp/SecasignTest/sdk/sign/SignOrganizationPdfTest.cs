@@ -12,7 +12,7 @@ public class SignOrganizationPdfTest
 {
     private static SdkConfiguration SdkConfiguration => SdkExtension.SdkConfiguration;
 
-    [SdkExtension(SdkTestRequirements.IsSigningAvailable)]
+    [SdkExtension([SdkTestRequirements.IsSigningAvailable])]
     public async Task TestSignOrganizationPdfDocumentWithVisualSignature()
     {
         // Create the HTTP client
@@ -94,7 +94,7 @@ public class SignOrganizationPdfTest
         }
     }
 
-    [SdkExtension(SdkTestRequirements.IsSigningAvailable)]
+    [SdkExtension([SdkTestRequirements.IsSigningAvailable])]
     public async Task TestSignOrganizationPdfDocumentWithInvisibleSignature()
     {
         // Create the HTTP client

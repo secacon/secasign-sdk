@@ -1,8 +1,11 @@
 name: Secasign SDK workflow
 on: [push]
+permissions:
+    contents: read
 jobs:
     Secasign-SDK-Workflow:
         runs-on: ubuntu-latest
+        timeout-minutes: 60
         strategy:
             matrix:
                 java-version: [17, 21, 25]
@@ -17,7 +20,7 @@ jobs:
                   java-version: ${{ matrix.java-version }}
                   distribution: 'temurin'
             - name: Setup Gradle
-              uses: gradle/actions/setup-gradle@v5
+              uses: gradle/actions/setup-gradle@v6
             - name: Setup C#
               uses: actions/setup-dotnet@v5
               with:

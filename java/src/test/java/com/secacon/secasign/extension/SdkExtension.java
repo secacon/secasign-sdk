@@ -5,6 +5,9 @@ import org.junit.platform.commons.util.AnnotationUtils;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.UUID;
@@ -78,9 +81,12 @@ public class SdkExtension implements ExecutionCondition, ParameterResolver {
     private static SdkConfiguration readSdkConfiguration() {
         // Read the properties file
         Properties properties = new Properties();
-        try (InputStream inputStream = new FileInputStream(CONFIGURATION_PROPERTIES_NAME)) {
+        try (
+            InputStream inputStream = new FileInputStream(CONFIGURATION_PROPERTIES_NAME);
+            Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)
+        ) {
             // Load the properties
-            properties.load(inputStream);
+            properties.load(reader);
 
             // Read all values but don't parse them
             String url = properties.getProperty("secasign.url", null);

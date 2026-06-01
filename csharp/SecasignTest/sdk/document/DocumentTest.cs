@@ -1,4 +1,4 @@
-﻿using Secasign;
+using Secasign;
 using Secasign.dto.authentication;
 using Secasign.dto.document;
 using SecasignTest.extension;
@@ -9,7 +9,7 @@ public class DocumentTest
 {
     private static SdkConfiguration SdkConfiguration => SdkExtension.SdkConfiguration;
 
-    [SdkExtension(SdkTestRequirements.IsDocumentAvailable)]
+    [SdkExtension([SdkTestRequirements.IsDocumentAvailable])]
     public async Task TestDocumentInformation()
     {
         // Create the HTTP client
@@ -28,7 +28,7 @@ public class DocumentTest
         Assert.Equal(SignatureTypeDto.PDF, readDocumentDto.signatureType);
     }
 
-    [SdkExtension(SdkTestRequirements.IsArchiveSearchAvailable)]
+    [SdkExtension([SdkTestRequirements.IsArchiveSearchAvailable])]
     public async Task TestDocumentSearchAndDownload()
     {
         // Create the HTTP client

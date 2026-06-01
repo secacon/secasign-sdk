@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Secasign;
 using Secasign.dto.authentication;
 using Secasign.dto.document;
@@ -12,7 +12,7 @@ public class ArchiveOrganizationPdfTest
 {
     private static SdkConfiguration SdkConfiguration => SdkExtension.SdkConfiguration;
 
-    [SdkExtension(SdkTestRequirements.IsArchivingAvailable)]
+    [SdkExtension([SdkTestRequirements.IsArchivingAvailable])]
     public async Task TestArchiveOrganizationPdfDocumentWithVisualSignature()
     {
         // Create the HTTP client

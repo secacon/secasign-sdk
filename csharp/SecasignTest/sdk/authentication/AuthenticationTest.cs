@@ -8,7 +8,7 @@ public class AuthenticationTest
 {
     private static SdkConfiguration SdkConfiguration => SdkExtension.SdkConfiguration;
 
-    [SdkExtension(SdkTestRequirements.IsLoginAvailable)]
+    [SdkExtension([SdkTestRequirements.IsLoginAvailable])]
     public async Task TestAuthentication()
     {
         // Create the HTTP client

@@ -1,57 +1,62 @@
+using System.Runtime.CompilerServices;
+using System.Text;
+
 namespace SecasignTest.extension;
 
-public class SdkExtension(params string[] conditions) : FactAttribute, IClassFixture<SdkConfiguration>
+public class SdkExtension : FactAttribute, IClassFixture<SdkConfiguration>
 {
     public static SdkConfiguration SdkConfiguration { get; } = ReadSdkConfiguration("../../../../../configuration.properties");
 
-    public override string? Skip
+    public SdkExtension(string[] conditions, [CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0)
     {
-        get
+        Skip = GetSkipReason(conditions);
+    }
+
+    private static string? GetSkipReason(params string[] conditions)
+    {
+        // Check all conditions
+        var isLoginAvailable = SdkConfiguration.Url != null && SdkConfiguration is { EmailAddress: not null, Password: not null };
+        var isSigningAvailable = SdkConfiguration.SigningId != null;
+        var isArchivingAvailable = SdkConfiguration.ProcessingRuleId != null;
+        var isDocumentAvailable = SdkConfiguration.DocumentId != null;
+        var isArchiveSearchAvailable = SdkConfiguration is { ArchiveAttributeId: not null, ArchiveAttributeValue: not null };
+
+        // Check all conditions
+        foreach (var condition in conditions)
         {
-            // Check all conditions
-            var isLoginAvailable = SdkConfiguration.Url != null && SdkConfiguration is { EmailAddress: not null, Password: not null };
-            var isSigningAvailable = SdkConfiguration.SigningId != null;
-            var isArchivingAvailable = SdkConfiguration.ProcessingRuleId != null;
-            var isDocumentAvailable = SdkConfiguration.DocumentId != null;
-            var isArchiveSearchAvailable = SdkConfiguration is { ArchiveAttributeId: not null, ArchiveAttributeValue: not null };
-
-            // Check all conditions
-            foreach (var condition in conditions)
+            // Check if login is required and available
+            if (condition.Equals(SdkTestRequirements.IsLoginAvailable) && !isLoginAvailable)
             {
-                // Check if login is required and available
-                if (condition.Equals(SdkTestRequirements.IsLoginAvailable) && !isLoginAvailable)
-                {
-                    return "Please set the credentials to non-null values in the Values.cs file!";
-                }
-
-                // Check if signing is required and available
-                if (condition.Equals(SdkTestRequirements.IsSigningAvailable) && (!isLoginAvailable || !isSigningAvailable))
-                {
-                    return "Please set the credentials/signing ID to non-null values in the Values.cs file!";
-                }
-
-                // Check if archiving is required and available
-                if (condition.Equals(SdkTestRequirements.IsArchivingAvailable) && (!isLoginAvailable || !isArchivingAvailable))
-                {
-                    return "Please set the credentials/processing rule ID to non-null values in the Values.cs file!";
-                }
-
-                // Check if document information is required and available
-                if (condition.Equals(SdkTestRequirements.IsDocumentAvailable) && (!isLoginAvailable || !isDocumentAvailable))
-                {
-                    return "Please set the credentials/processing rule ID to non-null values in the Values.java file!";
-                }
-
-                // Check if archive search is required and available
-                if (condition.Equals(SdkTestRequirements.IsArchiveSearchAvailable) && (!isLoginAvailable || !isArchiveSearchAvailable))
-                {
-                    return "Please set the credentials/archive attribute ID/value to non-null values in the Values.java file!";
-                }
+                return "Please set the credentials to non-null values in the Values.cs file!";
             }
 
-            // All requirements are fulfilled
-            return null;
+            // Check if signing is required and available
+            if (condition.Equals(SdkTestRequirements.IsSigningAvailable) && (!isLoginAvailable || !isSigningAvailable))
+            {
+                return "Please set the credentials/signing ID to non-null values in the Values.cs file!";
+            }
+
+            // Check if archiving is required and available
+            if (condition.Equals(SdkTestRequirements.IsArchivingAvailable) && (!isLoginAvailable || !isArchivingAvailable))
+            {
+                return "Please set the credentials/processing rule ID to non-null values in the Values.cs file!";
+            }
+
+            // Check if document information is required and available
+            if (condition.Equals(SdkTestRequirements.IsDocumentAvailable) && (!isLoginAvailable || !isDocumentAvailable))
+            {
+                return "Please set the credentials/processing rule ID to non-null values in the Values.java file!";
+            }
+
+            // Check if archive search is required and available
+            if (condition.Equals(SdkTestRequirements.IsArchiveSearchAvailable) && (!isLoginAvailable || !isArchiveSearchAvailable))
+            {
+                return "Please set the credentials/archive attribute ID/value to non-null values in the Values.java file!";
+            }
         }
+
+        // All requirements are fulfilled
+        return null;
     }
 
     private static SdkConfiguration ReadSdkConfiguration(string configurationPropertieName)
@@ -87,7 +92,7 @@ public class SdkExtension(params string[] conditions) : FactAttribute, IClassFix
         var properties = new Dictionary<string, string>();
 
         // Read all lines
-        foreach (var line in File.ReadAllLines(configurationPropertieName))
+        foreach (var line in File.ReadAllLines(configurationPropertieName, Encoding.UTF8))
         {
             // Ignore empty lines
             if (string.IsNullOrWhiteSpace(line) || line.TrimStart().StartsWith('#'))

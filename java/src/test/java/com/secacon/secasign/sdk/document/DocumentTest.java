@@ -59,7 +59,7 @@ public class DocumentTest {
         // Obtain the token
         TokenDto tokenDto = secasignHttpClient.login(new AuthenticationDto(sdkConfiguration.getEmailAddress(), sdkConfiguration.getPassword()));
 
-        // Search for the latest documents: First page with index 0, at most 10 document per page and by archive attribute with value
+        // Search for the latest documents: First page with index 0, at most 10 documents per page and by archive attribute with value
         List<ReadDocumentAttributeDto> readDocumentAttributeDtos = Collections.singletonList(new ReadDocumentAttributeDto(sdkConfiguration.getArchiveAttributeId(), sdkConfiguration.getArchiveAttributeValue()));
         DocumentSearchCriteriaDto documentSearchCriteriaDto = new DocumentSearchCriteriaDto(0, 10, null, null, null, null, null, null, null, null, null, null, null, readDocumentAttributeDtos);
         DocumentSearchResultDto documentSearchResultDto = secasignHttpClient.searchDocuments(tokenDto, documentSearchCriteriaDto);

@@ -43,6 +43,10 @@ public class ArchiveOrganizationPdfTest
         // Set this value to null or false if you don't know what this means
         bool? protectedPdfSigning = null; // or false
 
+        // Flag indicating whether to embed LTV information such as CRLs and OCSP responses into the signed PDF document. This is normally desired, except in rare cases such as submitting eBills to SIX.
+        // Set this value to null or true to embed the LTV information
+        bool? embedLtvInformation = null; // or true
+
         // Get the date and time
         var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Zurich");
         var localDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
@@ -66,7 +70,7 @@ public class ArchiveOrganizationPdfTest
             75, // Left page distance in millimeters of the signature, here 75 mm
             50, // Top page distance in millimeters of the signature, here 50 mm
             null, // Bottom page distance in millimeters of the signature, here null because top page distance is set
-            75, // With in millimeters of the signature, here 75 mm
+            75, // Width in millimeters of the signature, here 75 mm
             25, // Height in millimeters of the signature, here 25 mm
             "Helvetica", // Font type of the signature
             12, // Font size of the signature, here 12
@@ -76,7 +80,7 @@ public class ArchiveOrganizationPdfTest
         );
 
         // Sign and archive the document
-        var createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.Name, protectedPdfSigning, signatureStrategyDto);
+        var createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.Name, protectedPdfSigning, embedLtvInformation, signatureStrategyDto);
         var createOrganizationPdfArchivingDto = new CreateOrganizationPdfArchivingDto(processingRuleId, [createOrganizationPdfDocumentDto]);
         var readOrganizationDocumentDtos = await secasignHttpClient.SignAndArchiveOrganizationPdfDocuments(tokenDto, createOrganizationPdfArchivingDto);
 

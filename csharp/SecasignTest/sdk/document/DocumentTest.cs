@@ -41,7 +41,7 @@ public class DocumentTest
         // Get the archive attribute ID
         var archiveAttributeId = (Guid)SdkConfiguration.ArchiveAttributeId!;
 
-        // Search for the latest documents: First page with index 0, at most 10 document per page and by archive attribute with value
+        // Search for the latest documents: First page with index 0, at most 10 documents per page and by archive attribute with value
         List<ReadDocumentAttributeDto> readDocumentAttributeDtos = [new(archiveAttributeId, SdkConfiguration.ArchiveAttributeValue!)];
         var documentSearchCriteriaDto = new DocumentSearchCriteriaDto(0, 10, null, null, null, null, null, null, null, null, null, null, null, readDocumentAttributeDtos);
         var documentSearchResultDto = await secasignHttpClient.SearchDocuments(tokenDto, documentSearchCriteriaDto);

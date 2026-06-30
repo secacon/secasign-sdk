@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     // Serialization
-    implementation("tools.jackson.core:jackson-databind:3.1.4")
+    implementation("tools.jackson.core:jackson-databind:3.2.0")
 
     // Testing
     testImplementation(platform("org.junit:junit-bom:6.1.0"))

@@ -43,6 +43,10 @@ public class SignOrganizationPdfTest
         // Set this value to null or false if you don't know what this means
         bool? protectedPdfSigning = null; // or false
 
+        // Flag indicating whether to embed LTV information such as CRLs and OCSP responses into the signed PDF document. This is normally desired, except in rare cases such as submitting eBills to SIX.
+        // Set this value to null or true to embed the LTV information
+        bool? embedLtvInformation = null; // or true
+
         // Get the date and time
         var timeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Zurich");
         var localDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
@@ -66,7 +70,7 @@ public class SignOrganizationPdfTest
             75, // Left page distance in millimeters of the signature, here 75 mm
             50, // Top page distance in millimeters of the signature, here 50 mm
             null, // Bottom page distance in millimeters of the signature, here null because top page distance is set
-            75, // With in millimeters of the signature, here 75 mm
+            75, // Width in millimeters of the signature, here 75 mm
             25, // Height in millimeters of the signature, here 25 mm
             "Helvetica", // Font type of the signature
             12, // Font size of the signature, here 12
@@ -76,7 +80,7 @@ public class SignOrganizationPdfTest
         );
 
         // Sign the document
-        var createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.Name, protectedPdfSigning, signatureStrategyDto);
+        var createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.Name, protectedPdfSigning, embedLtvInformation, signatureStrategyDto);
         var createOrganizationPdfSigningDto = new CreateOrganizationPdfSigningDto(signingId, [createOrganizationPdfDocumentDto]);
         var readOrganizationDocumentDtos = await secasignHttpClient.SignOrganizationPdfDocuments(tokenDto, createOrganizationPdfSigningDto);
 
@@ -119,6 +123,10 @@ public class SignOrganizationPdfTest
         // Set this value to null or false if you don't know what this means
         bool? protectedPdfSigning = null; // or false
 
+        // Flag indicating whether to embed LTV information such as CRLs and OCSP responses into the signed PDF document. This is normally desired, except in rare cases such as submitting eBills to SIX.
+        // Set this value to null or true to embed the LTV information
+        bool? embedLtvInformation = null; // or true
+
         // Define the invisible signature
         var signatureStrategyDto = new InvisibleSignatureStrategyDto(
             "Simon Wächter", // Person that signed the document. Feel free to change this value to whatever value you like, but don't try to fool the viewer (E.g. Barack Obama)
@@ -130,7 +138,7 @@ public class SignOrganizationPdfTest
         );
 
         // Sign the document
-        var createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.Name, protectedPdfSigning, signatureStrategyDto);
+        var createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.Name, protectedPdfSigning, embedLtvInformation, signatureStrategyDto);
         var createOrganizationPdfSigningDto = new CreateOrganizationPdfSigningDto(signingId, [createOrganizationPdfDocumentDto]);
         var readOrganizationDocumentDtos = await secasignHttpClient.SignOrganizationPdfDocuments(tokenDto, createOrganizationPdfSigningDto);
 

@@ -10,15 +10,18 @@ public class CreateOrganizationPdfDocumentDto {
 
     private Boolean protectedPdfSigning;
 
+    private Boolean embedLtvInformation;
+
     private SignatureStrategyDto signatureStrategy;
 
     public CreateOrganizationPdfDocumentDto() {
     }
 
-    public CreateOrganizationPdfDocumentDto(String encodedDocument, String documentName, Boolean protectedPdfSigning, SignatureStrategyDto signatureStrategy) {
+    public CreateOrganizationPdfDocumentDto(String encodedDocument, String documentName, Boolean protectedPdfSigning, Boolean embedLtvInformation, SignatureStrategyDto signatureStrategy) {
         this.encodedDocument = encodedDocument;
         this.documentName = documentName;
         this.protectedPdfSigning = protectedPdfSigning;
+        this.embedLtvInformation = embedLtvInformation;
         this.signatureStrategy = signatureStrategy;
     }
 
@@ -44,6 +47,14 @@ public class CreateOrganizationPdfDocumentDto {
 
     public void setProtectedPdfSigning(Boolean protectedPdfSigning) {
         this.protectedPdfSigning = protectedPdfSigning;
+    }
+
+    public Boolean getEmbedLtvInformation() {
+        return embedLtvInformation;
+    }
+
+    public void setEmbedLtvInformation(Boolean embedLtvInformation) {
+        this.embedLtvInformation = embedLtvInformation;
     }
 
     public SignatureStrategyDto getSignatureStrategy() {

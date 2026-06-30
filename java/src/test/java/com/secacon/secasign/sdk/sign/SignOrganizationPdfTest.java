@@ -67,6 +67,10 @@ public class SignOrganizationPdfTest {
         // Set this value to null or false if you don't know what this means
         Boolean protectedPdfSigning = null; // or false
 
+        // Flag indicating whether to embed LTV information such as CRLs and OCSP responses into the signed PDF document. This is normally desired, except in rare cases such as submitting eBills to SIX.
+        // Set this value to null or true to embed the LTV information
+        Boolean embedLtvInformation = null; // or true
+
         // Get the date and time
         Instant now = Instant.now();
         String date = DateTimeFormatter.ofPattern("yyyy.MM.dd").withZone(ZoneId.of("Europe/Zurich")).format(now);
@@ -90,7 +94,7 @@ public class SignOrganizationPdfTest {
             75, // Left page distance in millimeters of the signature, here 75 mm
             50, // Top page distance in millimeters of the signature, here 50 mm
             null, // Bottom page distance in millimeters of the signature, here null because top page distance is set
-            75, // With in millimeters of the signature, here 75 mm
+            75, // Width in millimeters of the signature, here 75 mm
             25, // Height in millimeters of the signature, here 25 mm
             "Helvetica", // Font type of the signature
             12, // Font size of the signature, here 12
@@ -100,7 +104,7 @@ public class SignOrganizationPdfTest {
         );
 
         // Sign the document
-        CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.getName(), protectedPdfSigning, signatureStrategyDto);
+        CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.getName(), protectedPdfSigning, embedLtvInformation, signatureStrategyDto);
         CreateOrganizationPdfSigningDto createOrganizationPdfSigningDto = new CreateOrganizationPdfSigningDto(signingId, Collections.singletonList(createOrganizationPdfDocumentDto));
         List<ReadOrganizationDocumentDto> readOrganizationDocumentDtos = secasignHttpClient.signOrganizationPdfDocuments(tokenDto, createOrganizationPdfSigningDto);
 
@@ -144,6 +148,10 @@ public class SignOrganizationPdfTest {
         // Set this value to null or false if you don't know what this means
         Boolean protectedPdfSigning = null; // or false
 
+        // Flag indicating whether to embed LTV information such as CRLs and OCSP responses into the signed PDF document. This is normally desired, except in rare cases such as submitting eBills to SIX.
+        // Set this value to null or true to embed the LTV information
+        Boolean embedLtvInformation = null; // or true
+
         // Define the invisible signature
         SignatureStrategyDto signatureStrategyDto = new InvisibleSignatureStrategyDto(
             SignatureStrategyTypeDto.INVISIBLE_SIGNATURE, // Use the visual signature strategy
@@ -156,7 +164,7 @@ public class SignOrganizationPdfTest {
         );
 
         // Sign the document
-        CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.getName(), protectedPdfSigning, signatureStrategyDto);
+        CreateOrganizationPdfDocumentDto createOrganizationPdfDocumentDto = new CreateOrganizationPdfDocumentDto(encodedUnsignedPdfDocumentData, unsignedPdfDocument.getName(), protectedPdfSigning, embedLtvInformation, signatureStrategyDto);
         CreateOrganizationPdfSigningDto createOrganizationPdfSigningDto = new CreateOrganizationPdfSigningDto(signingId, Collections.singletonList(createOrganizationPdfDocumentDto));
         List<ReadOrganizationDocumentDto> readOrganizationDocumentDtos = secasignHttpClient.signOrganizationPdfDocuments(tokenDto, createOrganizationPdfSigningDto);
 

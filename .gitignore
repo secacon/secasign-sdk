@@ -1,5 +1,7 @@
-# Java
+# General
 /.idea/
+
+# Java
 /java/.gradle/
 /java/build/
 /java/.idea/
